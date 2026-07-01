@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile - GK Shoppy</title>
+  <style>body{font-family:Arial,Helvetica,sans-serif;padding:1rem}</style>
+</head>
+<body>
+  <h1>Profile</h1>
+  <div th:if="${user == null}">
+    <p>You are not signed in. <a href="/auth">Sign in</a></p>
+  </div>
+  <div th:if="${user != null}">
+    <p><strong>Username:</strong> <span th:text="${user.username}">username</span></p>
+    <p><strong>Email:</strong> <span th:text="${user.email}">email</span></p>
+    <form th:action="@{/logout}" method="post">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <button type="submit" style="background:none;border:none;color:#06c;padding:0;cursor:pointer">Sign out</button>
+    </form>
+  </div>
+</body>
+</html>

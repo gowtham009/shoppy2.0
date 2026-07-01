@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmation - GK Shoppy</title>
+  <style>body{font-family:Arial,Helvetica,sans-serif;padding:1rem}</style>
+</head>
+<body>
+  <h1>Order Confirmation</h1>
+  <div th:if="${order != null}">
+    <p>Order ID: <span th:text="${order.id}">#</span></p>
+    <p>Total: ₹<span id="orderTotal" th:text="${#numbers.formatDecimal(order.total,0,'POINT',2,'NONE')}">0</span></p>
+    <p>Status: <span th:text="${order.status}">CREATED</span></p>
+    <h3>Items</h3>
+    <ul>
+      <li th:each="it : ${order.items}">
+        <span th:text="${it.product.name}">Product</span> — Qty: <span th:text="${it.quantity}">1</span>
+      </li>
+    </ul>
+    <div style="margin-top:1rem">
+      <button id="payNow">Pay now</button>
+      <div id="paymentResult" style="margin-top:.5rem;color:green"></div>
+    </div>
+  </div>
+  <a href="/shop">Continue shopping</a> | <a href="/orders">View orders</a>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const btn = document.getElementById('payNow');
+      if (!btn) return;
+      btn.addEventListener('click', async function(){
+        btn.disabled = true; btn.textContent = 'Processing...';
+        const orderId = /*[[${order.id}]]*/ '0';
+        const totalText = document.getElementById('orderTotal').textContent || '0';
+        // convert displayed total to minor units (paise)
+        const amount = Math.round(parseFloat(totalText.replace(/[^0-9\.]/g,'')) * 100);
+        try {
+          const params = new URLSearchParams(); params.append('orderId', orderId);
+          const res = await fetch('/payment/create-intent', { method: 'POST', body: params });
+          const data = await res.json();
+          if (data.clientSecret) {
+            document.getElementById('paymentResult').textContent = 'Payment intent created: ' + data.clientSecret;
+          } else if (data.error) {
+            document.getElementById('paymentResult').style.color = 'red';
+            document.getElementById('paymentResult').textContent = 'Error: ' + (data.message||data.error);
+          } else {
+            document.getElementById('paymentResult').style.color = 'red';
+            document.getElementById('paymentResult').textContent = 'Unexpected response';
+          }
+        } catch (err) {
+          document.getElementById('paymentResult').style.color = 'red';
+          document.getElementById('paymentResult').textContent = 'Error: ' + err;
+        } finally {
+          btn.disabled = false; btn.textContent = 'Pay now';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

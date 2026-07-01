@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: gk-shoppy
+    env: docker
+    repo: https://github.com/gowtham009/gkshoppy-react2.0
+    branch: main
+    plan: free
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: VITE_SUPABASE_URL
+        fromSecret: VITE_SUPABASE_URL
+      - key: VITE_SUPABASE_ANON_KEY
+        fromSecret: VITE_SUPABASE_ANON_KEY

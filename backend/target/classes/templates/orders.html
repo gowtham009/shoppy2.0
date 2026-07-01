@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Orders - GK Shoppy</title>
+  <style>body{font-family:Arial,Helvetica,sans-serif;padding:1rem} .order{border:1px solid #eee;padding:1rem;margin-bottom:1rem}</style>
+</head>
+<body>
+  <h1>Your Orders</h1>
+  <div th:if="${orders.size()}==0">You have no orders yet.</div>
+  <div th:each="o : ${orders}" class="order">
+    <p>Order #<span th:text="${o.id}">1</span> — <span th:text="${o.status}">CREATED</span> — <span th:text="${#dates.format(o.createdAt, 'yyyy-MM-dd HH:mm')}">date</span></p>
+    <ul>
+      <li th:each="it : ${o.items}">
+        <span th:text="${it.product.name}">Product</span> — Qty: <span th:text="${it.quantity}">1</span> — ₹<span th:text="${#numbers.formatDecimal(it.priceAtPurchase,0,'POINT',2,'NONE')}">0</span>
+      </li>
+    </ul>
+    <p>Total: ₹<span th:text="${#numbers.formatDecimal(o.total,0,'POINT',2,'NONE')}">0</span></p>
+  </div>
+</body>
+</html>

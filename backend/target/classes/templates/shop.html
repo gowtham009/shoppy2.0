@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop - GK Shoppy</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:1rem}
+    .product{border:1px solid #ddd;padding:1rem;border-radius:6px;margin-bottom:1rem;display:flex;gap:1rem}
+    img{width:120px;height:120px;object-fit:cover}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>GK Shoppy</h1>
+    <nav>
+      <a href="/">Shop</a> | <a href="/cart">Cart</a> | <a href="/auth">Sign In</a> | <a href="/profile">Profile</a>
+    </nav>
+    <hr/>
+  </header>
+
+  <section>
+    <h2>Products</h2>
+    <div th:if="${products.size()}==0">No products found</div>
+    <div th:each="p : ${products}" class="product">
+      <img th:src="${p.imageUrl}" alt="Product image" />
+      <div>
+        <h3 th:text="${p.name}">Product Name</h3>
+        <p th:text="${p.description}">Description</p>
+        <p><strong>₹<span th:text="${#numbers.formatDecimal(p.price, 0, 'POINT', 2, 'NONE')}">0</span></strong></p>
+        <form th:action="@{/cart/add}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          <input type="hidden" name="productId" th:value="${p.id}" />
+          <label>Qty: <input name="qty" type="number" value="1" min="1" style="width:60px" /></label>
+          <button type="submit">Add to cart</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

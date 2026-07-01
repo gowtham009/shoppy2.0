@@ -1,0 +1,92 @@
+node_modules/
+dist/
+.env
+.env.*
+.DS_Store
+.vite/
+.idea/
+.vscode/
+npm-debug.log
+coverage/
+coverage-final.json
+/.history/
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.env
+
+# Java / Maven
+/target/
+**/target/
+/backend/target/
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+.project
+.settings/
+.classpath
+
+# IDE
+*.idea/
+*.idea/*
+!.idea/extensions.xml
+.vscode/
+
+# H2 / DB files
+*.db
+*.h2.db
+
+# Build tool wrappers
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# Temporary files
+*.tmp
+*.temp
+
+# keys and secrets
+*.keystore
+*.jks
+.env.local
+
+# Ignore test output and reports
+/target/surefire-reports/
+/target/failsafe-reports/
+
+# node
+node_modules/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# local config
+local.properties
+
+# Maven local repository (optional; usually not ignored)
+# ~/.m2/repository/
